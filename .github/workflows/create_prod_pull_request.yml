@@ -14,7 +14,7 @@ jobs:
 
       - name: Read content of newfile
         shell: bash
-        run: echo ::set-env name=template::$(cat newfile)
+        run: echo ::set-env name=template::echo "$(cat newfile)"
         id: get_template
 
       - name: pull-request-action
