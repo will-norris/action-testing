@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Read template
+      - name: Read PR template
         id: template
         uses: juliangruber/read-file-action@v1
         with:
