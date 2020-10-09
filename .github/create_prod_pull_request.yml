@@ -1,0 +1,39 @@
+name: Prod Release Pull Request
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  auto-pull-request:
+    name: PullRequestAction
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: pull-request-action
+        id: pull_request
+        uses: vsoch/pull-request-action@1.0.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_BRANCH: "master"
+          PULL_REQUEST_BODY: |
+            # Data Engineering Prod Release
+
+            ## Changelog:
+            <!--- Please add the list of changes here  -->
+            <!--- Please tag responsible the users with @  -->
+            - Change 1
+            - Change 2
+          PULL_REQUEST_TITLE: Production Release
+
+      - name: Test outputs
+        run: |
+          echo "Pull request url: ${{ steps.pull_request.outputs.pull_request_url }}"
+          echo "Pull request number ${{ steps.pull_request.outputs.pull_request_number }}"
