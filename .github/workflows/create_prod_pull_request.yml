@@ -14,7 +14,12 @@ jobs:
 
       - name: Read PR template
         id: template
-        run: echo "::set-output name=content::\"$(cat ./.github/MASTER_PULL_REQUEST_TEMPLATE.md)\""
+        run: |
+          content="$(cat ./.github/MASTER_PULL_REQUEST_TEMPLATE.md)"
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=content::$content"
 
       - name: pull-request-action
         id: pull_request
