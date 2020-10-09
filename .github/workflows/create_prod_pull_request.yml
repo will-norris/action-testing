@@ -14,9 +14,7 @@ jobs:
 
       - name: Read PR template
         id: template
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.github/PULL_REQUEST_TEMPLATE/master.md
+        run: echo "::set-output name=content::$(cat ./.github/MASTER_PULL_REQUEST_TEMPLATE.md)"
 
       - name: pull-request-action
         id: pull_request
