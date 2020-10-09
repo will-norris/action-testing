@@ -1,0 +1,34 @@
+name: Prod Release Pull Request
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  auto-pull-request:
+    name: PullRequestAction
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Read PR template
+        id: template
+        run: |
+          content="$(cat ./.github/MASTER_PULL_REQUEST_TEMPLATE.md)"
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=content::$content"
+
+      - name: pull-request-action
+        id: pull_request
+        uses: vsoch/pull-request-action@1.0.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_BRANCH: "master"
+          PULL_REQUEST_BODY: ${{ steps.template.outputs.content }}
+
+      - name: Test outputs
+        run: |
+          echo $template
