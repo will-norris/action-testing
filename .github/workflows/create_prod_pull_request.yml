@@ -16,7 +16,7 @@ jobs:
         id: template
         uses: juliangruber/read-file-action@v1
         with:
-          path: ./newfile
+          path: ./.github/PULL_REQUEST_TEMPLATE/master.md
 
       - name: pull-request-action
         id: pull_request
