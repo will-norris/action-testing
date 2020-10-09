@@ -14,7 +14,7 @@ jobs:
 
       - name: Read content of newfile
         shell: bash
-        run: "template=$(cat newfile)" >> $GITHUB_ENV
+        run: echo "template=$(cat newfile)" >> $GITHUB_ENV
         id: get_template
 
       - name: pull-request-action
